@@ -27,10 +27,10 @@ Once you know the area, lock edits to it so the fix can't sprawl: load the `guar
 | Race or ordering | Intermittent, depends on timing or test order | Shared state, goroutines, async handlers, test setup and teardown |
 | Null or missing value | nil pointer, `undefined`, TypeError | Optional fields, unhandled error returns, early returns |
 | Partial update | Inconsistent rows, half-applied changes | Transactions, retries, webhooks processed twice |
-| Boundary failure | Timeout, unexpected status or shape | External APIs (PayMongo, other gateways), service-to-service calls |
+| Boundary failure | Timeout, unexpected status or shape | External APIs (payment gateways, auth providers), service-to-service calls |
 | Config drift | Works locally, fails in staging or prod | Env vars, secrets, image tag, migrations not applied, feature flags |
 | Stale data | Fixed by a restart or cache clear | Caches, CDN, connection pools, build artifacts |
-| Money or time math | Off by a centavo, a day or 8 hours | Floats instead of integer centavos, rounding order, UTC vs Asia/Manila, end-of-day and end-of-month boundaries |
+| Money or time math | Off by a cent, a day or a few hours | Floats instead of integer minor units, rounding order, UTC vs local time, end-of-day and end-of-month boundaries |
 | Scoping leak | One tenant or merchant sees another's data | Missing tenant or merchant filter, RLS context not set |
 
 Also check `git log` for earlier fixes in the same files: a bug that keeps coming back there is a design problem, not bad luck.
@@ -84,4 +84,4 @@ Don't commit, push or open a PR unless the person or the project's workflow asks
 
 ## Data care
 
-Logs and databases in these projects hold personal data: patient details, customer and payer names, phone numbers and payment details. Quote only the lines you need, mask personal values (`juan.d***@…`, `09** *** 1234`), and never paste secrets or tokens into replies, tests or fixtures. Build test data from the project's seed or fixture files.
+Logs and databases often hold personal data: names, emails, phone numbers, health or payment details, ID numbers. Quote only the lines you need, mask personal values (`jane.d***@…`, `*** *** 1234`), and never paste secrets or tokens into replies, tests or fixtures. Build test data from the project's seed or fixture files.

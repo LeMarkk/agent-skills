@@ -4,7 +4,7 @@
     "name": "John Mark Dela Cruz"
   },
   "metadata": {
-    "description": "Shared Claude Code skills and hooks for Chariot and PosMoTo"
+    "description": "Claude Code skills and hooks for safer agent work: a guard against destructive commands, root-cause debugging, and per-project setup"
   },
   "plugins": [
     {

@@ -39,7 +39,7 @@ Use when debugging one module, working near production config, or when the perso
 
 ```json
 {
-  "ask":   [{"pattern": "PAYMONGO_LIVE=(true|1)\\b", "reason": "live PayMongo keys only in prod"}],
+  "ask":   [{"pattern": "PAYMENTS_LIVE=(true|1)\\b", "reason": "live payment keys only in prod"}],
   "deny":  [{"pattern": "\\bmake\\s+db-reset\\b", "reason": "resets the shared dev database"}],
   "allow": [{"pattern": "rm -rf \\./\\.local-cache"}],
   "protect_paths": [{"glob": "backend/migrations/*.sql", "reason": "applied migrations never change; add a new one"}]

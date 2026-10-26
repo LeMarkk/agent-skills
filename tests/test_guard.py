@@ -57,11 +57,11 @@ CASES = [
     ("timeout 60 terraform destroy -auto-approve", "ask"),
     ("dropdb app_dev", "ask"),
     ("docker system prune -af", "ask"),
-    ("docker volume rm posmoto_db", "ask"),
+    ("docker volume rm myapp_db", "ask"),
     ("docker rm -f api", "ask"),
     ("docker compose down -v", "ask"),
-    ("docker stack rm chariot", "ask"),
-    ("docker service rm chariot_api", "ask"),
+    ("docker stack rm myapp", "ask"),
+    ("docker service rm myapp_api", "ask"),
     ("kubectl delete pod api-123", "ask"),
     ("terraform destroy", "ask"),
     ("terraform apply -auto-approve", "ask"),
@@ -160,7 +160,7 @@ class GuardProjectRules(unittest.TestCase):
             fh.write("create table t (id int);\n")
         with open(os.path.join(self.repo, ".claude", "guard.json"), "w") as fh:
             json.dump({
-                "ask": [{"pattern": r"PAYMONGO_LIVE=(true|1)\b", "reason": "live payments only in prod"}],
+                "ask": [{"pattern": r"PAYMENTS_LIVE=(true|1)\b", "reason": "live payments only in prod"}],
                 "deny": [{"pattern": r"\bmake\s+db-reset\b", "reason": "resets the shared dev database"}],
                 "allow": [{"pattern": r"rm -rf \./scratch"}],
                 "protect_paths": [{"glob": "migrations/*.sql", "reason": "applied migrations never change"}],
@@ -175,9 +175,9 @@ class GuardProjectRules(unittest.TestCase):
         return run({"tool_name": tool, "tool_input": {"file_path": path}, "cwd": self.repo}, self.env)
 
     def test_project_ask_and_deny(self):
-        self.assertEqual(self.bash("PAYMONGO_LIVE=true make dev")["permissionDecision"], "ask")
+        self.assertEqual(self.bash("PAYMENTS_LIVE=true make dev")["permissionDecision"], "ask")
         self.assertEqual(self.bash("make db-reset")["permissionDecision"], "deny")
-        self.assertIsNone(self.bash("PAYMONGO_LIVE=false make dev"))
+        self.assertIsNone(self.bash("PAYMENTS_LIVE=false make dev"))
 
     def test_project_allow(self):
         self.assertIsNone(self.bash("rm -rf ./scratch"))
