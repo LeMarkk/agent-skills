@@ -1,6 +1,6 @@
 {
   "name": "devteam",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A development team for Claude Code: pm, architect, backend and frontend developers, qa, reviewer, security and devops agents, each preloading only the skills its role needs (interview, spec, tasks, design, decisions, build, tdd, ui, test-plan, review, security, ship), plus a team skill that runs them. Methods adapted from mattpocock/skills and addyosmani/agent-skills.",
   "author": {
     "name": "John Mark Dela Cruz"
@@ -14,5 +14,6 @@
     "code-review",
     "security",
     "ci-cd"
-  ]
+  ],
+  "license": "MIT"
 }

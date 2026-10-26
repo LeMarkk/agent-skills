@@ -1,6 +1,6 @@
 {
   "name": "devkit",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Engineering skills for Claude Code: guard (blocks destructive commands, locks edits to a folder), debug (root cause before any fix) and setup (adds devkit to a project with rules for its stack). Methods adapted from gstack.",
   "author": {
     "name": "John Mark Dela Cruz"
@@ -12,5 +12,6 @@
     "debugging",
     "guardrails",
     "migrations"
-  ]
+  ],
+  "license": "MIT"
 }
