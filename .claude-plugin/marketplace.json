@@ -10,7 +10,7 @@
     {
       "name": "devkit",
       "source": "./plugins/devkit",
-      "description": "guard and debug skills, with an always-on guard hook for shell commands and edits"
+      "description": "guard, debug and setup skills, with an always-on guard hook for shell commands and edits"
     }
   ]
 }
