@@ -1,12 +1,44 @@
 agent-skills
 Copyright (c) 2026 John Mark Dela Cruz
 
-The skills in this repository are original writing. Their methods are adapted from
-gstack by Garry Tan (https://github.com/garrytan/gstack), released under the MIT License,
+The skills and agents in this repository are original writing. Their methods are adapted
+from the projects below, each released under the MIT License.
+
+devkit: gstack by Garry Tan (https://github.com/garrytan/gstack),
 as reviewed at commit 6c3cf1baac93a794d37065da8b95340e14305126 (version 1.91.242.0):
 
 - guard: the destructive-command warnings of gstack's /careful and the edit lock of /freeze
 - debug: the root-cause-first method, scope lock, pattern table, three-strike rule,
   regression-test-first fix and report format of gstack's /investigate
 
-No gstack source files, scripts or binaries are included.
+devteam: skills by Matt Pocock (https://github.com/mattpocock/skills), as reviewed at
+commit 5beb35b040e3de97e54fa9e386d7e42d15c295c2, and agent-skills by Addy Osmani
+(https://github.com/addyosmani/agent-skills), as reviewed at commit
+aeac41d4d005999432bb7312f7ff06383a91d59d:
+
+- interview: the decision-tree rounds with recommended answers of Matt's grilling skill,
+  and the outcome-first questioning of Addy's interview-me
+- spec: the problem, user stories and test seams of Matt's to-spec, with the success
+  criteria, Always/Ask first/Never boundaries and scope check of Addy's spec-driven-development
+- tasks: the tracer-bullet slices, blocking edges and expand-contract refactors of Matt's
+  to-tickets, with the task sizing and acceptance checks of Addy's planning-and-task-breakdown
+- design: the deep-module vocabulary and deletion test of Matt's codebase-design, with the
+  contract-first, additive-change and idempotency rules of Addy's api-and-interface-design
+- decisions: the three-part ADR test and glossary practice of Matt's domain-modeling, with
+  the ADR record of Addy's documentation-and-adrs
+- build: the increment cycle and implementation rules of Addy's incremental-implementation
+- tdd: the seam-first loop and anti-patterns of Matt's tdd, with the test qualities of Addy's
+  test-driven-development
+- ui: the state, accessibility and responsive checks of Addy's frontend-ui-engineering and
+  browser-testing-with-devtools
+- test-plan: the test-level and coverage guidance of Addy's test-engineer agent
+- review: the two-axis standards/spec review and smell baseline of Matt's code-review, with
+  the five-axis checks and severity labels of Addy's code-review-and-quality
+- security: the threat model and hardening controls of Addy's security-and-hardening
+- ship: the CI gates, launch checklist, rollback and observability of Addy's ci-cd-and-automation,
+  shipping-and-launch and observability-and-instrumentation, with the PR template of Matt's pr
+- team: the frontier-based orchestration and context-pointer briefs of Matt's implement-spec,
+  and the handoff of Matt's handoff
+- agents: the role personas of Addy's agents (code-reviewer, security-auditor, test-engineer)
+
+No source files, scripts or binaries from these projects are included.

@@ -4,13 +4,18 @@
     "name": "John Mark Dela Cruz"
   },
   "metadata": {
-    "description": "Claude Code skills and hooks for safer agent work: a guard against destructive commands, root-cause debugging, and per-project setup"
+    "description": "Claude Code plugins for safer, structured agent work: devkit (guard against destructive commands, root-cause debugging, per-project setup) and devteam (a role-based development team from spec to ship)"
   },
   "plugins": [
     {
       "name": "devkit",
       "source": "./plugins/devkit",
       "description": "guard, debug and setup skills, with an always-on guard hook for shell commands and edits"
+    },
+    {
+      "name": "devteam",
+      "source": "./plugins/devteam",
+      "description": "pm, architect, backend-dev, frontend-dev, qa, reviewer, security and devops agents, with the skills each role needs and a team skill to run them"
     }
   ]
 }

@@ -1,0 +1,18 @@
+{
+  "name": "devteam",
+  "version": "0.1.0",
+  "description": "A development team for Claude Code: pm, architect, backend and frontend developers, qa, reviewer, security and devops agents, each preloading only the skills its role needs (interview, spec, tasks, design, decisions, build, tdd, ui, test-plan, review, security, ship), plus a team skill that runs them. Methods adapted from mattpocock/skills and addyosmani/agent-skills.",
+  "author": {
+    "name": "John Mark Dela Cruz"
+  },
+  "repository": "https://github.com/LeMarkk/agent-skills",
+  "keywords": [
+    "agents",
+    "team",
+    "spec-driven",
+    "tdd",
+    "code-review",
+    "security",
+    "ci-cd"
+  ]
+}
