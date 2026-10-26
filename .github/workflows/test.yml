@@ -1,0 +1,37 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    strategy:
+      matrix:
+        python: ["3.10", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: JSON files parse
+        run: |
+          for f in .claude-plugin/marketplace.json plugins/*/.claude-plugin/plugin.json plugins/*/hooks/hooks.json; do
+            python -m json.tool "$f" > /dev/null && echo "ok $f"
+          done
+      - name: guard tests
+        run: python -m unittest discover -s tests -v
+      - name: skill size budget (12 KB)
+        run: |
+          fail=0
+          for f in plugins/*/skills/*/SKILL.md; do
+            size=$(wc -c < "$f"); echo "$size $f"
+            [ "$size" -le 12288 ] || { echo "::error file=$f::over 12 KB"; fail=1; }
+          done
+          exit $fail

@@ -1,0 +1,12 @@
+agent-skills
+Copyright (c) 2026 John Mark Dela Cruz
+
+The skills in this repository are original writing. Their methods are adapted from
+gstack by Garry Tan (https://github.com/garrytan/gstack), released under the MIT License,
+as reviewed at commit 6c3cf1baac93a794d37065da8b95340e14305126 (version 1.91.242.0):
+
+- guard: the destructive-command warnings of gstack's /careful and the edit lock of /freeze
+- debug: the root-cause-first method, scope lock, pattern table, three-strike rule,
+  regression-test-first fix and report format of gstack's /investigate
+
+No gstack source files, scripts or binaries are included.

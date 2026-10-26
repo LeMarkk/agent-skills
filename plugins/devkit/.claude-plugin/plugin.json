@@ -1,0 +1,9 @@
+{
+  "name": "devkit",
+  "version": "0.1.0",
+  "description": "John Mark's engineering skills: guard (blocks destructive commands, locks edits to a folder) and debug (root cause before any fix). Methods adapted from gstack.",
+  "author": {
+    "name": "John Mark Dela Cruz"
+  },
+  "repository": "https://github.com/LeMarkk/agent-skills"
+}

@@ -1,0 +1,16 @@
+{
+  "name": "agent-skills",
+  "owner": {
+    "name": "John Mark Dela Cruz"
+  },
+  "metadata": {
+    "description": "Shared Claude Code skills and hooks for Chariot and PosMoTo"
+  },
+  "plugins": [
+    {
+      "name": "devkit",
+      "source": "./plugins/devkit",
+      "description": "guard and debug skills, with an always-on guard hook for shell commands and edits"
+    }
+  ]
+}
