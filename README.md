@@ -1,6 +1,13 @@
 # agent-skills
 
-Claude Code skills and hooks that make agent work safer, for any project. Add them to your repo and everyone who opens it in Claude Code, including subagents, gets:
+Claude Code plugins for any project, in one marketplace:
+
+- **devkit** makes agent work safer: a guard hook against destructive commands, root-cause debugging, and per-project setup.
+- **devteam** gives Claude Code a development team: eight role agents, from product manager to DevOps, each loading only the skills its role needs. See [devteam](#devteam-a-development-team).
+
+## devkit
+
+Add it to your repo and everyone who opens it in Claude Code, including subagents, gets:
 
 | Part | What it does |
 |---|---|
@@ -11,7 +18,7 @@ Claude Code skills and hooks that make agent work safer, for any project. Add th
 
 **New to coding?** Start with the [beginner's guide](GUIDE.md): what devkit does in plain words, setup from zero, and what to do when guard asks a question.
 
-Nothing here calls an outside service or records usage. The methods are adapted from [garrytan/gstack](https://github.com/garrytan/gstack); see [NOTICE](NOTICE).
+Nothing here calls an outside service or records usage. devkit's methods are adapted from [garrytan/gstack](https://github.com/garrytan/gstack); devteam's from [mattpocock/skills](https://github.com/mattpocock/skills) and [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills). See [NOTICE](NOTICE).
 
 ## Quick start
 
@@ -22,6 +29,7 @@ Nothing here calls an outside service or records usage. The methods are adapted 
 ```sh
 claude plugin marketplace add LeMarkk/agent-skills
 claude plugin install devkit@lemarkk
+claude plugin install devteam@lemarkk   # optional: the development team
 ```
 
 ### For a team, in one repository
@@ -45,7 +53,8 @@ To do it by hand, put this in `.claude/settings.json`:
     }
   },
   "enabledPlugins": {
-    "devkit@lemarkk": true
+    "devkit@lemarkk": true,
+    "devteam@lemarkk": true
   }
 }
 ```
@@ -75,22 +84,56 @@ Each project can add rules in `.claude/guard.json`:
 
 guard reads command text before it runs. It can't see what a script, Makefile target or SQL file does inside, and a person who wants to get around it can. It's a seatbelt against an agent's mistakes, not a security boundary. To turn it off, disable the plugin with `/plugin`; Claude can't do that for you.
 
+## devteam: a development team
+
+| Agent | Skills it preloads | Job |
+|---|---|---|
+| `devteam:pm` | interview, spec, tasks | Find out what to build, write the spec, slice it into tasks |
+| `devteam:architect` | design, decisions, tasks | Module and API shape, ADRs, glossary |
+| `devteam:backend-dev` | build, tdd | Server, data, APIs, jobs |
+| `devteam:frontend-dev` | build, tdd, ui | Screens, components, client state |
+| `devteam:qa` | test-plan, tdd | Map acceptance criteria to tests, fill gaps, run the flows |
+| `devteam:reviewer` | review | Standards and spec review before merge (read-only) |
+| `devteam:security` | security | Threat model and hardening review (read-only) |
+| `devteam:devops` | ship | CI gates, release, rollback, observability, the PR |
+
+Start with `/devteam:team` and describe what you want. The lead picks the smallest path: a one-line change goes straight to a developer; a feature goes spec → build → review; anything risky runs the full loop:
+
+```
+pm: interview → spec (you approve) → architect: design → tasks (you approve)
+  → backend-dev / frontend-dev, task by task → qa → reviewer (+ security) → devops: ship
+```
+
+Everything the team decides lives in files, so agents pass paths to each other instead of pasting context:
+
+```
+docs/work/<feature>/spec.md        what and why, success criteria, test seams, boundaries
+docs/work/<feature>/tasks/NN-*.md  one task per file, with owner, blockers and "done when"
+docs/work/<feature>/test-plan.md   acceptance criteria mapped to tests
+docs/adr/NNNN-*.md                 hard-to-reverse decisions
+GLOSSARY.md                        the project's terms
+```
+
+**Why it's light on tokens.** Each skill is under 4 KB and its description is a sentence or two, so the always-loaded cost is small. A role agent loads only its own two or three skills, in its own context, and reports back in under 150–400 words. Routine roles run on Sonnet; the architect, reviewer and security agents use your session's model.
+
+Bugs go to devkit's `debug` skill, so install devkit alongside devteam.
+
 ## Using your own copy
 
 Fork the repo, change the skills or rules, and point `repo` in the settings above at your fork (`your-name/agent-skills`). Plugins run with your user's permissions, so read a fork's `hooks/` and `scripts/` before installing it.
 
 ## Contributing
 
-1. Edit under `plugins/devkit/`. Keep each `SKILL.md` under about 12 KB; put long material in a `references/` file the skill points to.
-2. Run the tests: `python3 -m unittest discover -s tests`, and with Claude Code installed, `claude plugin validate .` and `claude plugin validate plugins/devkit`.
+1. Edit under `plugins/devkit/` or `plugins/devteam/`. Keep each `SKILL.md` under about 12 KB (devteam's under 6 KB); put long material in a `references/` file the skill points to.
+2. Run the tests: `python3 -m unittest discover -s tests`, and with Claude Code installed, `claude plugin validate .`, `claude plugin validate plugins/devkit` and `claude plugin validate plugins/devteam`.
 3. A new built-in guard rule needs cases in `tests/test_guard.py`: a command it should catch and a near miss it should leave alone. A new catalog rule needs the same in `tests/test_catalog.py`.
-4. Bump `version` in `plugins/devkit/.claude-plugin/plugin.json` and open a pull request. Projects with `autoUpdate` pick up merged changes at the start of a later session.
+4. Bump `version` in the plugin's `.claude-plugin/plugin.json` and open a pull request. Projects with `autoUpdate` pick up merged changes at the start of a later session.
 
 ## Roadmap
 
-- **Now:** guard, debug, setup.
-- **Next:** code review, test strategy, security audit.
-- **Later:** a ship workflow (GitHub and GitLab, ECS, Docker Swarm, plain VPS), a docs check on release, and plan review.
+- **Now:** devkit (guard, debug, setup) and devteam (eight role agents and their skills).
+- **Next:** platform-specific ship recipes (GitHub and GitLab, ECS, Docker Swarm, plain VPS) and a docs check on release.
+- **Later:** plan review and evals for the devteam agents.
 
 ## License
 
