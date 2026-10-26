@@ -1,13 +1,15 @@
 ---
 name: setup
-description: Adds devkit to a project so everyone who opens it in Claude Code gets the guard hook and the debug skill, and writes guard rules that fit the project's stack (migrations, ORMs, payment keys, generated files). Use when someone says set up devkit, add devkit to this repo, configure guard for this project, or starts a new project and wants these skills in it.
+description: Adds devkit (and, if wanted, the devteam agents) to a project so everyone who opens it in Claude Code gets the guard hook and the debug skill, and writes guard rules that fit the project's stack (migrations, ORMs, payment keys, generated files). Use when someone says set up devkit, add devkit to this repo, configure guard for this project, or starts a new project and wants these skills in it.
 ---
 
 # setup
 
-Wire devkit into the current repository and give guard rules that fit it. Work from the repository root (`git rev-parse --show-toplevel`). Change only `.claude/settings.json`, `.claude/guard.json` and, if the person agrees, a few lines of `CLAUDE.md`. Don't commit or push unless asked.
+Wire devkit, and devteam if the person wants it, into the current repository and give guard rules that fit it. Work from the repository root (`git rev-parse --show-toplevel`). Change only `.claude/settings.json`, `.claude/guard.json` and, if the person agrees, a few lines of `CLAUDE.md`. Don't commit or push unless asked.
 
-## 1. Enable the plugin for the project
+## 1. Enable the plugins for the project
+
+Ask whether the project should also get **devteam**: eight role agents (pm, architect, backend and frontend developers, qa, reviewer, security, devops) that take a feature from spec to ship, started with `/devteam:team`. devkit is always added.
 
 Read `.claude/settings.json` if it exists and merge; never drop keys that are already there. Add:
 
@@ -20,12 +22,15 @@ Read `.claude/settings.json` if it exists and merge; never drop keys that are al
     }
   },
   "enabledPlugins": {
-    "devkit@lemarkk": true
+    "devkit@lemarkk": true,
+    "devteam@lemarkk": true
   }
 }
 ```
 
-If the person installs devkit from a fork, use their fork's `owner/repo` and the `name` in the fork's `.claude-plugin/marketplace.json` instead. If the marketplace is already listed under another name, keep that name and use it in `enabledPlugins` (`devkit@<that name>`).
+Leave out the `devteam@lemarkk` line if the person doesn't want the team.
+
+If the person installs devkit from a fork, use their fork's `owner/repo` and the `name` in the fork's `.claude-plugin/marketplace.json` instead. If the marketplace is already listed under another name, keep that name and use it in `enabledPlugins` (`devkit@<that name>`, `devteam@<that name>`).
 
 ## 2. Look at the stack
 
@@ -64,6 +69,9 @@ Offer to add a short section to `CLAUDE.md`:
 - `.claude/settings.json` enables the `devkit` plugin (guard hook and /devkit:debug). Project-specific guard rules are in `.claude/guard.json`.
 - Use /devkit:debug for bugs and failing tests: root cause first, a regression test that fails before the fix.
 - If guard stops a command, don't reword it to get past the check; ask.
+- Features go through /devteam:team: spec and task list are approved before building; work lives in docs/work/<feature>/.
 ```
+
+Include the last line only if devteam was enabled.
 
 Finish with what changed, the rules added, and two things each teammate needs: read access to the marketplace repo if it's private, and Python 3.8 or later on their PATH (as `python3` or `python`) for the hook. They get the plugin the next time they open the project in Claude Code and trust the folder; `/plugin` shows it under Installed.

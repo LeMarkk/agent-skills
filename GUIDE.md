@@ -1,4 +1,4 @@
-# A beginner's guide to building with Claude Code and devkit
+# A beginner's guide to building with Claude Code, devkit and devteam
 
 This guide is for you if you want to build an app or a website with Claude Code but you aren't a programmer, or you're just starting out. You don't need to know how to code. You need about 30 minutes for the setup, and you'll type a few commands that you can copy and paste from here.
 
@@ -11,6 +11,18 @@ Claude Code is an AI assistant that works inside your project folder: it writes 
 - **setup, the installer.** It adds devkit to a project and writes extra rules that fit what you're building.
 
 devkit can't make mistakes impossible. It catches the common, costly ones, and it always lets *you* make the final call.
+
+## What devteam adds
+
+devteam gives Claude a small software team. Instead of one assistant doing everything at once, a lead hands each part of the job to a specialist:
+
+- a **product manager** who asks you questions until it's clear what you want, then writes it down as a plan you approve;
+- an **architect** who decides how the pieces fit together;
+- **backend and frontend developers** who build one small piece at a time and test each one;
+- a **QA tester**, a **code reviewer** and a **security checker** who look for problems before anything is finished;
+- a **DevOps engineer** who helps put the app online safely.
+
+You talk only to the lead. It decides how much of the team a request needs: a small fix goes straight to a developer, a new feature goes through the whole team. It's optional; devkit works fine on its own.
 
 ## What you need
 
@@ -89,22 +101,23 @@ You should see a version number. If you see "command not found" or "not recogniz
 
 Prefer not to use the terminal day to day? The [Claude desktop app](https://code.claude.com/docs/en/desktop-quickstart) runs Claude Code in a normal window. You still need the terminal once, for Step 4; after that, devkit works in the desktop app too.
 
-## Step 4. Install devkit
+## Step 4. Install devkit and devteam
 
-Paste these two lines, one at a time:
+Paste these lines, one at a time:
 
 ```sh
 claude plugin marketplace add LeMarkk/agent-skills
 claude plugin install devkit@lemarkk
+claude plugin install devteam@lemarkk
 ```
 
-The first adds this collection of skills to Claude Code, and the second installs devkit from it. Check it:
+The first adds this collection of skills to Claude Code, the second installs devkit, and the third installs devteam. Skip the third if you don't want the team. Check it:
 
 ```sh
 claude plugin list
 ```
 
-You should see `devkit@lemarkk` with `Status: enabled`. devkit is now on for every project on your computer.
+You should see `devkit@lemarkk` (and `devteam@lemarkk`) with `Status: enabled`. They're now on for every project on your computer.
 
 ## Step 5. Start your first project
 
@@ -123,17 +136,34 @@ claude
 /devkit:setup
 ```
 
-Claude adds devkit to the project and shows you any extra rules it suggests. Read them and say yes if they make sense. Run `/devkit:setup` again later, once your project has a database or a deploy step, so the rules can catch up.
+Claude asks whether you want the team too (say yes if you installed devteam), adds the plugins to the project, and shows you any extra rules it suggests. Read them and say yes if they make sense. Run `/devkit:setup` again later, once your project has a database or a deploy step, so the rules can catch up.
 
-Then describe what you want to build, in plain words. For example:
+Then start the team and describe what you want to build, in plain words:
 
-> Build a simple website for my bakery: a home page, a menu page with prices, and a contact form that emails me. Keep it simple and explain what you're doing as you go.
+```
+/devteam:team Build a simple website for my bakery: a home page, a menu page with prices, and a contact form that emails me.
+```
 
-> I want a to-do list app I can use on my phone. Start with the smallest version that works, then we'll add features.
+```
+/devteam:team I want a to-do list app I can use on my phone. Start with the smallest version that works.
+```
 
-Ask for one small piece at a time. Check that it works before asking for the next.
+Without devteam, just type the description on its own. Either way, ask for one small piece at a time and check that it works before asking for the next.
 
 ## Working with Claude day to day
+
+### Working with the team
+
+When you start something new with `/devteam:team`, expect this order:
+
+1. **Questions.** The product manager asks a few numbered questions, each with a suggested answer. Reply with the numbers you disagree with, or "yes to all".
+2. **The plan.** It writes the plan to `docs/work/<feature>/spec.md` and stops. Read the summary and say "approved", or say what to change. Nothing is built before you approve.
+3. **The task list.** The work is split into small tasks, one file each. Approve the list the same way.
+4. **Building.** Developers take one task at a time. You'll see short reports: what was done and how it was tested.
+5. **Checks.** QA, the reviewer and, when it matters, the security checker look over the work. Problems go back to a developer.
+6. **Going live.** When you're ready, the DevOps engineer checks everything and prepares the change.
+
+Stopping for the day? Ask the lead to **write a handoff**. Next time, start with `/devteam:team continue from the handoff`.
 
 ### When Claude Code asks permission
 
@@ -188,12 +218,13 @@ Each commit is a save point you can go back to. For a backup outside your comput
 - **Read before you approve.** guard catches the common disasters, but you're the final check.
 - **Commit often.** It's the easiest way to undo a bad change.
 
-## Keeping devkit up to date
+## Keeping devkit and devteam up to date
 
-To get the latest version:
+To get the latest versions:
 
 ```sh
 claude plugin update devkit@lemarkk
+claude plugin update devteam@lemarkk
 ```
 
 Or let it update itself: in Claude Code, type `/plugin`, go to the **Marketplaces** tab, select **lemarkk**, and choose **Enable auto-update**.
@@ -205,7 +236,8 @@ Or let it update itself: in Claude Code, type `/plugin`, go to the **Marketplace
 | `claude: command not found` | Close the terminal and open a new one. If it still fails, see [Troubleshoot installation](https://code.claude.com/docs/en/troubleshoot-install). |
 | `devkit@lemarkk` isn't in `claude plugin list` | Run both commands in Step 4 again. |
 | Claude Code shows a hook error before every command | Python isn't installed or can't be found. Repeat Step 2, then open a new terminal. Until it's fixed, guard isn't checking anything. |
-| `/devkit:setup` or `/devkit:debug` isn't recognised | Type `/exit` and start `claude` again, or type `/reload-plugins`. |
+| `/devkit:setup`, `/devkit:debug` or `/devteam:team` isn't recognised | Type `/exit` and start `claude` again, or type `/reload-plugins`. If it's still missing, run the install commands in Step 4 again. |
+| The team asks too many questions for a small change | Say so: *"This is a small fix, skip the plan."* The lead sends small changes straight to a developer. |
 | guard keeps asking about something you do all the time | Ask Claude to add an `allow` rule for that exact command to `.claude/guard.json`. Keep it narrow. |
 
 Still stuck? Open an issue at [github.com/LeMarkk/agent-skills/issues](https://github.com/LeMarkk/agent-skills/issues) with what you typed and what you saw. Leave out passwords and keys.
@@ -218,7 +250,9 @@ Still stuck? Open an issue at [github.com/LeMarkk/agent-skills/issues](https://g
 - **Git:** the tool that records your project's history.
 - **Commit:** a save point in that history.
 - **GitHub:** a website that stores a copy of your repository online.
-- **Plugin:** an add-on for Claude Code. devkit is one.
+- **Plugin:** an add-on for Claude Code. devkit and devteam are plugins.
+- **Agent:** a helper Claude starts for one job, such as the reviewer. It works in its own space and reports back to the lead.
+- **Spec:** the written plan for a feature: what it does, for whom, and how you'll know it works.
 - **Skill:** a set of instructions Claude follows for a kind of task, such as debugging. You can call one by name, like `/devkit:debug`.
 - **Hook:** a small program Claude Code runs automatically at certain moments. guard is a hook that runs before every command.
 - **Database:** where an app stores its data, such as users and orders.
