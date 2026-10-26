@@ -14,7 +14,7 @@ no output means guard has no objection and the normal permission flow applies.
 guard never auto-approves anything.
 
 Method credit: gstack /careful and /freeze (MIT), see NOTICE in the repo root.
-Standard library only; needs Python 3.10+.
+Standard library only; needs Python 3.8+.
 """
 
 import fnmatch

@@ -66,4 +66,4 @@ Offer to add a short section to `CLAUDE.md`:
 - If guard stops a command, don't reword it to get past the check; ask.
 ```
 
-Finish with what changed, the rules added, and two things each teammate needs: read access to the marketplace repo if it's private, and `python3` (3.10 or later) on their PATH for the hook. They get the plugin the next time they open the project in Claude Code and trust the folder; `/plugin` shows it under Installed.
+Finish with what changed, the rules added, and two things each teammate needs: read access to the marketplace repo if it's private, and Python 3.8 or later on their PATH (as `python3` or `python`) for the hook. They get the plugin the next time they open the project in Claude Code and trust the folder; `/plugin` shows it under Installed.

@@ -9,11 +9,13 @@ Claude Code skills and hooks that make agent work safer, for any project. Add th
 | `/devkit:debug` | Root cause before any fix: reproduce, lock scope, test one hypothesis at a time, stop after 3 misses, write a regression test that fails first, then report. Claude also uses it on its own when something is broken. |
 | `/devkit:setup` | Adds devkit to a project and writes guard rules that fit its stack: Prisma, Drizzle, Rails, Django, Alembic, Laravel, golang-migrate, goose, Flyway, Supabase, Knex, plus live-mode switches and rules from your docs. |
 
+**New to coding?** Start with the [beginner's guide](GUIDE.md): what devkit does in plain words, setup from zero, and what to do when guard asks a question.
+
 Nothing here calls an outside service or records usage. The methods are adapted from [garrytan/gstack](https://github.com/garrytan/gstack); see [NOTICE](NOTICE).
 
 ## Quick start
 
-**Needs:** [Claude Code](https://docs.claude.com/en/docs/claude-code/overview), `git`, and Python 3.10+ as `python3` on your PATH (standard on macOS and Linux; on Windows, install Python and make sure `python3` runs). If `python3` is missing, Claude Code shows a hook error and commands run without guard's check.
+**Needs:** [Claude Code](https://docs.claude.com/en/docs/claude-code/overview), `git`, and Python 3.8 or later as `python3` or `python` (macOS gets it with Apple's developer tools, most Linux has it, Windows needs it installed). If Python is missing, Claude Code shows a hook error and commands run without guard's check. New to all this? Read the [beginner's guide](GUIDE.md).
 
 ### For yourself, in every project
 

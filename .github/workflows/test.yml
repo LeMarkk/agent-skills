@@ -14,19 +14,18 @@ jobs:
     timeout-minutes: 5
     strategy:
       matrix:
-        python: ["3.10", "3.13"]
+        # 3.8 is the oldest guard supports (macOS developer tools ship 3.9)
+        python: ["3.8", "3.13"]
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python }}
+      - uses: astral-sh/setup-uv@v6
       - name: JSON files parse
         run: |
           for f in .claude-plugin/marketplace.json plugins/*/.claude-plugin/plugin.json plugins/*/hooks/hooks.json; do
-            python -m json.tool "$f" > /dev/null && echo "ok $f"
+            uv run --no-project --python ${{ matrix.python }} -- python -m json.tool "$f" > /dev/null && echo "ok $f"
           done
-      - name: guard tests
-        run: python -m unittest discover -s tests -v
+      - name: guard and catalog tests
+        run: uv run --no-project --python ${{ matrix.python }} -- python -I -m unittest discover -s tests -v
       - name: skill size budget (12 KB)
         run: |
           fail=0
