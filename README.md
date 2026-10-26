@@ -19,7 +19,7 @@ Nothing here calls an outside service or records usage. The methods are adapted 
 
 ```sh
 claude plugin marketplace add LeMarkk/agent-skills
-claude plugin install devkit@agent-skills
+claude plugin install devkit@lemarkk
 ```
 
 ### For a team, in one repository
@@ -37,18 +37,18 @@ To do it by hand, put this in `.claude/settings.json`:
 ```json
 {
   "extraKnownMarketplaces": {
-    "agent-skills": {
+    "lemarkk": {
       "source": { "source": "github", "repo": "LeMarkk/agent-skills" },
       "autoUpdate": true
     }
   },
   "enabledPlugins": {
-    "devkit@agent-skills": true
+    "devkit@lemarkk": true
   }
 }
 ```
 
-Check it loaded with `/plugin` (Installed tab), or ask Claude to run `/devkit:guard status`.
+The marketplace is named `lemarkk` (the name inside the repo's `marketplace.json`); the repo is `LeMarkk/agent-skills`. Check it loaded with `/plugin` (Installed tab), or ask Claude to run `/devkit:guard status`.
 
 ### Starting a new project
 

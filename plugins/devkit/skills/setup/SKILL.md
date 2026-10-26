@@ -14,18 +14,18 @@ Read `.claude/settings.json` if it exists and merge; never drop keys that are al
 ```json
 {
   "extraKnownMarketplaces": {
-    "agent-skills": {
+    "lemarkk": {
       "source": { "source": "github", "repo": "LeMarkk/agent-skills" },
       "autoUpdate": true
     }
   },
   "enabledPlugins": {
-    "devkit@agent-skills": true
+    "devkit@lemarkk": true
   }
 }
 ```
 
-If the person installs devkit from a fork, use their fork's `owner/repo` instead. If the marketplace is already listed under another name, keep that name and use it in `enabledPlugins` (`devkit@<that name>`).
+If the person installs devkit from a fork, use their fork's `owner/repo` and the `name` in the fork's `.claude-plugin/marketplace.json` instead. If the marketplace is already listed under another name, keep that name and use it in `enabledPlugins` (`devkit@<that name>`).
 
 ## 2. Look at the stack
 
