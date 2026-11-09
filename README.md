@@ -11,7 +11,7 @@ Claude Code plugins for any project, in one marketplace:
 LeMarkk/agent-skills                      marketplace "lemarkk"
 ├── devkit
 │   ├── hook   guard.py                   runs before every shell command and file edit
-│   └── skills guard · debug · setup
+│   └── skills guard · debug · setup · safe-rename · report-deck
 └── devteam
     ├── skill  team                       the lead, runs in your own session
     ├── agents pm · architect · backend-dev · frontend-dev
@@ -97,6 +97,8 @@ The marketplace is named `lemarkk` (the name in the repo's `marketplace.json`); 
 | `/devkit:guard` | Explains a stopped command, locks edits to one folder (`freeze`), shows status, tests a command with `check`. |
 | `/devkit:debug` | Root cause before any fix: reproduce, lock scope, test one hypothesis at a time, stop after 3 misses, write a regression test that fails first, then report. Claude also uses it on its own when something is broken. |
 | `/devkit:setup` | Adds the plugins to a project and writes guard rules that fit its stack: Prisma, Drizzle, Rails, Django, Alembic, Laravel, golang-migrate, goose, Flyway, Supabase, Knex, plus live-mode switches and rules from your docs. |
+| `safe-rename` | Renames a symbol, file, route or key without missing a reference: refuses database, public-API and persisted names, finds every form of the old name (code, strings, config, docs), changes them in one commit, then proves it with type check, lint and tests. Safe for cheaper models. |
+| `report-deck` | Turns any report, review or standup into a Slides deck in your design system plus an .xlsx of its main table, without asking about format. Your design system link and output folder live in `~/.claude/report-deck.json`, never in the repo. |
 
 ### Project rules
 
