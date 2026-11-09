@@ -35,6 +35,9 @@ CASES = [
     ("NODE_ENV=production npm run db:migrate", "ask"),
     ("npm run db:reset", "ask"), ("make db-reset", "ask"), ("make test", None),
     ("make deploy-prod", "deny"),
+    ("npm run deploy:prod", "deny"), ("gh workflow run deploy-production.yml", "deny"),
+    ("docker compose -f compose.prod.yml up -d", "deny"), ("npm run deploy:preview", None),
+    ("gh workflow run ci.yml", None),
     ("psql -c \"UPDATE orders SET status = 'paid' WHERE id = 1\"", "ask"),
     ('psql -c "DELETE FROM audit_log WHERE id = 1"', "ask"),
 ]
