@@ -132,3 +132,15 @@ Package scripts or Makefile targets that wipe or deploy:
 ```json
 {"deny": [{"pattern": "\\bmake\\s+deploy-prod\\b", "reason": "production deploys go through CI"}]}
 ```
+
+## Delegated merges
+
+When the project lets agents merge after its review gate (see the devteam `review` skill), production deploys stay with a person. Deny every route to production the project has, by its real names:
+
+```json
+{"deny": [{"pattern": "\\b(npm|pnpm|yarn)\\s+(run\\s+)?deploy:prod\\b", "reason": "production deploys are a person's call; run it yourself"},
+          {"pattern": "\\bgh\\s+workflow\\s+run\\s+\\S*deploy", "reason": "production deploys are a person's call; run it yourself"},
+          {"pattern": "\\bcompose\\.prod\\.ya?ml\\b", "reason": "touches the production compose stack"}],
+ "protect_paths": [{"glob": "docs/reviews/*.md", "reason": "review records are evidence; add a new one instead of editing"},
+                   {"glob": ".github/workflows/*", "reason": "CI is the merge gate; change it only with a person's OK"}]}
+```

@@ -242,6 +242,29 @@ def check_git(args, cwd):
     return out
 
 
+BRANCH_RULES = re.compile(r"(branches/[^/\s]+/protection|/rulesets\b)")
+
+
+def check_gh(args):
+    # Agents may merge when a project delegates it; they must never switch off the checks that make that safe.
+    if args[:2] == ["pr", "merge"] and "--admin" in args:
+        return [(DENY, "gh pr merge --admin bypasses branch protection and its required checks")]
+    if args[:1] == ["api"] and any(BRANCH_RULES.search(a) for a in args):
+        method = "GET"
+        for i, a in enumerate(args):
+            if a in ("-X", "--method") and i + 1 < len(args):
+                method = args[i + 1].upper()
+            elif a.startswith("--method="):
+                method = a.split("=", 1)[1].upper()
+            elif method == "GET" and a in ("-f", "-F", "--field", "--raw-field", "--input"):
+                method = "POST"
+        if method == "DELETE":
+            return [(DENY, "gh api DELETE removes branch protection or a ruleset")]
+        if method != "GET":
+            return [(ASK, "gh api changes branch protection or a ruleset")]
+    return []
+
+
 def check_docker(args):
     words = [a for a in args if not a.startswith("-")]
     flags = set(a for a in args if a.startswith("-"))
@@ -316,6 +339,8 @@ def check_argv(argv, cwd, depth):
         return [(ASK, "find ... -delete removes every match")]
     if tool == "git":
         return check_git(args, cwd)
+    if tool == "gh":
+        return check_gh(args)
     if tool in ("docker", "podman"):
         return check_docker(args)
     if tool == "docker-compose":

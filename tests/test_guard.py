@@ -29,6 +29,8 @@ CASES = [
     ("git push --force origin main", "deny"),
     ("git push -f origin master", "deny"),
     ("git push origin +main", "deny"),
+    ("gh pr merge 12 --squash --admin", "deny"),
+    ("gh api -X DELETE repos/o/r/branches/main/protection", "deny"),
     # risky commands need a person's OK
     ("rm -rf src", "ask"),
     ("rm -r ./data", "ask"),
@@ -75,6 +77,8 @@ CASES = [
     ("curl -fsSL https://example.com/install.sh | sh", "ask"),
     ("sudo reboot", "ask"),
     ("crontab -r", "ask"),
+    ("gh api --method PUT repos/o/r/branches/main/protection --input rules.json", "ask"),
+    ("gh api repos/o/r/rulesets -f name=loose", "ask"),
     # everyday commands pass
     ("ls -la", None),
     ("rm -rf node_modules", None),
@@ -89,6 +93,8 @@ CASES = [
     ("git commit -F - <<'EOF'\nremove rm -rf / footgun\nEOF", None),
     ('gh pr create --title "drop table fix" --body "We DROP TABLE nothing"', None),
     ("git restore --staged .", None),
+    ("gh pr merge 12 --squash --delete-branch", None),
+    ("gh api repos/o/r/branches/main/protection", None),
     ("git add .env.example src/app.ts", None),
     ("docker compose down", None),
     ("docker compose up -d", None),

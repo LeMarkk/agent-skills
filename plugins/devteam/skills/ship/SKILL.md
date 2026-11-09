@@ -18,11 +18,14 @@ Every pull request and push to the main branch runs, in this order, and any fail
 5. Build
 6. Dependency audit, failing on critical or high
 
+Protect the main branch: require these checks to pass, block force-pushes and deletion, and apply the rules to admins too. If agents merge (see `review`), they run with a person's credentials, so branch protection is the only thing they can't talk their way past.
+
 Keep the pipeline under about ten minutes: cache dependencies, run independent jobs in parallel. Secrets live in the CI's secret store, never in the workflow file. When CI fails, read the log, reproduce locally, and fix the cause; don't re-run hoping it passes.
 
 ## Before release
 
 - [ ] CI green on the exact commit being released
+- [ ] Production deploy approved by a person, even when merges are delegated to agents
 - [ ] Review done; security review done if the change handles input, auth, money, files or personal data
 - [ ] Database migrations are backward compatible: the old code still runs against the new schema
 - [ ] New environment variables and secrets exist in every target environment

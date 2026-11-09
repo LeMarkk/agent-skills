@@ -56,8 +56,21 @@ Run the tests yourself. Check that the commands the author reported actually pas
 - **Not asked for**: ...
 
 Summary: <n> standards findings (worst: ...), <n> spec findings (worst: ...). Tests: <command> → <result>.
+
+VERDICT: APPROVE | CHANGES REQUESTED @ <full commit sha>
 ```
 
 Severities: **Critical** blocks merge (wrong behavior, data loss, security hole). **Should fix** before merge unless the author has a reason. **Nit** is optional. Don't rank across the two axes. Under 400 words; if there are more findings than that, list the most serious and say how many you left out.
 
 If you spot a security issue, flag it as Critical and recommend a `security` review.
+
+## When the project delegates merging
+
+Some projects let agents merge without a person reading the diff. Only do this when the project's `CLAUDE.md` says so and names who merges. The gate is all of:
+
+1. Every reviewer the project names gives `APPROVE` or `PASS` **at the same commit sha**. A new commit, even a one-line fix, voids every verdict; review again.
+2. No Critical finding is open, and no Should fix finding is waved through without a written reason.
+3. CI is green on that sha.
+4. A review record exists (the project names the path, e.g. `docs/reviews/<ticket>.md`) with each verdict, its sha and the CI run, committed with the merge.
+
+Then merge without force, never with `--admin` or any switch that skips branch protection. A person still owns production deploys and anything else the project lists as human-only. Stop and hand to a person instead of merging when the change rewrites a recorded decision (ADR), deletes or rewrites data, or the same change has failed the gate three times.

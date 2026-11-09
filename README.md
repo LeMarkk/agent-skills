@@ -93,7 +93,7 @@ The marketplace is named `lemarkk` (the name in the repo's `marketplace.json`); 
 
 | Part | What it does |
 |---|---|
-| **guard** hook | Runs before every shell command and file edit. Blocks the catastrophic (recursive delete of `/` or `~`, force-push to `main`, writing to a raw disk) and asks before the risky (other recursive deletes, `git reset --hard`, SQL `DROP`/`TRUNCATE`, Docker prunes and `stack rm`, `terraform destroy`, AWS/OCI deletes, `curl \| sh`). Never auto-approves. |
+| **guard** hook | Runs before every shell command and file edit. Blocks the catastrophic (recursive delete of `/` or `~`, force-push to `main`, writing to a raw disk, `gh pr merge --admin` and deleting branch protection) and asks before the risky (other recursive deletes, `git reset --hard`, SQL `DROP`/`TRUNCATE`, Docker prunes and `stack rm`, `terraform destroy`, AWS/OCI deletes, `curl \| sh`). Never auto-approves. |
 | `/devkit:guard` | Explains a stopped command, locks edits to one folder (`freeze`), shows status, tests a command with `check`. |
 | `/devkit:debug` | Root cause before any fix: reproduce, lock scope, test one hypothesis at a time, stop after 3 misses, write a regression test that fails first, then report. Claude also uses it on its own when something is broken. |
 | `/devkit:setup` | Adds the plugins to a project and writes guard rules that fit its stack: Prisma, Drizzle, Rails, Django, Alembic, Laravel, golang-migrate, goose, Flyway, Supabase, Knex, plus live-mode switches and rules from your docs. |
@@ -126,7 +126,7 @@ guard reads command text before it runs. It can't see what a script, Makefile ta
 | `devteam:backend-dev` | build, tdd | Server, data, APIs, jobs |
 | `devteam:frontend-dev` | build, tdd, ui | Screens, components, client state |
 | `devteam:qa` | test-plan, tdd | Map acceptance criteria to tests, fill gaps, run the flows |
-| `devteam:reviewer` | review | Standards and spec review before merge (read-only) |
+| `devteam:reviewer` | review | Standards and spec review before merge (read-only); its verdict can gate agent merges when a project delegates them |
 | `devteam:security` | security | Threat model and hardening review (read-only) |
 | `devteam:devops` | ship | CI gates, release, rollback, observability, the PR |
 
