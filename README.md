@@ -16,8 +16,8 @@ LeMarkk/agent-skills                      marketplace "lemarkk"
     ├── skill  team                       the lead, runs in your own session
     ├── agents pm · architect · backend-dev · frontend-dev
     │          qa · reviewer · security · devops
-    └── skills interview · spec · tasks · design · decisions · build
-               tdd · ui · test-plan · review · security · ship
+    └── skills interview · research · spec · tasks · design · decisions
+               build · tdd · ui · test-plan · review · security · ship
 ```
 
 Inside a project, the pieces fit together like this:
@@ -121,7 +121,7 @@ guard reads command text before it runs. It can't see what a script, Makefile ta
 
 | Agent | Skills it preloads | Job |
 |---|---|---|
-| `devteam:pm` | interview, spec, tasks | Find out what to build, write the spec, slice it into tasks |
+| `devteam:pm` | interview, research, spec, tasks | Find out what to build, research the slice it serves, write the spec, slice it into tasks |
 | `devteam:architect` | design, decisions, tasks | Module and API shape, ADRs, glossary |
 | `devteam:backend-dev` | build, tdd | Server, data, APIs, jobs |
 | `devteam:frontend-dev` | build, tdd, ui | Screens, components, client state |
